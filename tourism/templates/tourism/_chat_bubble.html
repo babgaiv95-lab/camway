@@ -1,0 +1,10 @@
+<div class="chat-bubble {{ m.role }}">
+  {{ m.content }}
+  {% if m.referenced_sites.all %}
+    <span class="cite">
+      {% for s in m.referenced_sites.all %}
+        <a href="{% url 'tourism:site_detail' s.slug %}"><i class="fa-solid fa-location-dot icon"></i> {{ s.name }}</a>{% if s.primary_video %} <button type="button" class="cite-video-btn" data-video-id="{{ s.primary_video.youtube_video_id }}" data-video-title="{{ s.primary_video.title|default:s.name }}" title="Voir la vidéo de preuve — {{ s.name }}"><i class="fa-brands fa-youtube"></i></button>{% endif %}{% if not forloop.last %} · {% endif %}
+      {% endfor %}
+    </span>
+  {% endif %}
+</div>

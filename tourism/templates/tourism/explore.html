@@ -1,0 +1,73 @@
+{% extends "tourism/base.html" %}
+{% block title %}Explorer les destinations — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-compass icon"></i> Explorer les destinations</h2>
+        <p class="section-subtitle">Rechercher et consulter des sites touristiques du Cameroun.</p>
+      </div>
+    </div>
+
+    <form method="get" class="form-card filter-form auto-filter" style="margin-bottom:1.6rem;">
+      <div class="field">
+        <label for="{{ form.q.id_for_label }}">{{ form.q.label }}</label>
+        {{ form.q }}
+      </div>
+      <div class="field">
+        <label for="{{ form.region.id_for_label }}">{{ form.region.label }}</label>
+        {{ form.region }}
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+        {{ form.category }}
+      </div>
+      <noscript><button type="submit" class="btn btn-primary btn-block">Filtrer</button></noscript>
+    </form>
+
+    <p class="section-subtitle">{{ sites|length }} destination{{ sites|length|pluralize }} trouvée{{ sites|length|pluralize }}.</p>
+
+    <div class="geo-panel">
+      <p><i class="fa-solid fa-location-dot icon"></i> Activez votre position pour voir la distance jusqu'à chaque site et trier par proximité.</p>
+      <button type="button" class="btn btn-secondary" data-geo-request id="sort-nearby-btn">
+        <i class="fa-solid fa-location-crosshairs icon"></i> Autour de moi
+      </button>
+    </div>
+
+    {% if sites %}
+      <div class="grid" id="site-grid">
+        {% for site in sites %}
+          {% include "tourism/_site_card.html" with site=site %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Aucun site ne correspond à votre recherche pour le moment.<br>
+        Essayez d'élargir vos critères, ou <a href="{% url 'tourism:chat' %}">posez la question à CamWay</a>.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% block extra_js %}
+<script>
+  // Trie les cartes du plus proche au plus loin dès que la position est
+  // connue (site sans coordonnées relégué en fin de liste, pas exclu).
+  document.addEventListener("camway:position-rendered", function (e) {
+    var position = e.detail && e.detail.position;
+    if (!position || !window.CamwayGeo) return;
+    var grid = document.getElementById("site-grid");
+    if (!grid) return;
+    var cards = Array.prototype.slice.call(grid.children);
+    cards.sort(function (a, b) {
+      var da = a.querySelector("[data-lat]"), db = b.querySelector("[data-lat]");
+      var kmA = da ? CamwayGeo.haversineKm(position.lat, position.lng, parseFloat(da.dataset.lat), parseFloat(da.dataset.lng)) : Infinity;
+      var kmB = db ? CamwayGeo.haversineKm(position.lat, position.lng, parseFloat(db.dataset.lat), parseFloat(db.dataset.lng)) : Infinity;
+      return kmA - kmB;
+    });
+    cards.forEach(function (c) { grid.appendChild(c); });
+  });
+</script>
+{% endblock %}
+{% endblock %}

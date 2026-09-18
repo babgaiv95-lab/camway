@@ -1,0 +1,22 @@
+{% extends "tourism/base.html" %}
+{% block title %}Connexion — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:420px;">
+    <h2><i class="fa-solid fa-lock icon"></i> Connexion</h2>
+    <p class="section-subtitle">Un compte n'est jamais obligatoire pour utiliser CamWay.</p>
+    <form method="post" class="form-card">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+    </form>
+    <p style="margin-top:1rem;">Pas encore de compte ? <a href="{% url 'tourism:register' %}">Créer un compte</a></p>
+  </div>
+</section>
+{% endblock %}

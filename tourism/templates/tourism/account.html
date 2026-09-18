@@ -1,0 +1,44 @@
+{% extends "tourism/base.html" %}
+{% block title %}Mon compte — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-user icon"></i> Mon compte</h2>
+        <p class="section-subtitle">Bonjour {{ user.username }}.</p>
+      </div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-ghost btn-sm">Se déconnecter</button>
+      </form>
+    </div>
+
+    <div class="detail-block">
+      <h3>Mes itinéraires</h3>
+      {% if itineraries %}
+        <ul class="list-plain">
+          {% for it in itineraries %}
+            <li><i class="fa-solid fa-map icon"></i> <a href="{% url 'tourism:itinerary' %}">{{ it.title }}</a> — {{ it.duration_days }} jour{{ it.duration_days|pluralize }}, {{ it.items.count }} étape{{ it.items.count|pluralize }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Aucun itinéraire enregistré. <a href="{% url 'tourism:explore' %}">Commencez à explorer</a>.</p>
+      {% endif %}
+    </div>
+
+    <div class="detail-block">
+      <h3>Mes demandes de réservation</h3>
+      {% if bookings %}
+        <ul class="list-plain">
+          {% for b in bookings %}
+            <li><i class="fa-solid fa-envelope icon"></i> {{ b.site.name|default:b.provider.name }} — {{ b.get_status_display }} ({{ b.created_at|date:"d/m/Y" }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Aucune demande de réservation pour le moment.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

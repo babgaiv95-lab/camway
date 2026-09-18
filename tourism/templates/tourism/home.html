@@ -1,1 +1,66 @@
+{% extends "tourism/base.html" %}
+{% load static %}
+{% block content %}
 
+<section class="hero" style="--hero-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Rhumsiki_Peak.jpg');">
+  <div class="container">
+    <span class="tagline">Guidage touristique multilingue</span>
+    <h1>Comprendre. Choisir. Organiser. Découvrir le Cameroun.</h1>
+    <p class="lead">
+      CamWay est une plateforme touristique intelligente qui transforme des données
+      touristiques camerounaises sourcées et vérifiées en recommandations et en
+      itinéraires personnalisés.
+    </p>
+    <div class="hero-actions">
+      <a href="{% url 'tourism:chat' %}" class="btn btn-secondary"><i class="fa-solid fa-comments icon"></i> Dialoguer avec CamWay</a>
+      <a href="{% url 'tourism:explore' %}" class="btn btn-outline" style="background:#fff;"><i class="fa-solid fa-compass icon"></i> Explorer les destinations</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>{{ stats.sites }}</b><span>sites publiés</span></div>
+      <div class="stat"><b>{{ stats.regions }}</b><span>régions couvertes</span></div>
+      <div class="stat"><b>{{ stats.verified }}</b><span>fiches vérifiées</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-muted">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2>Destinations à la une</h2>
+        <p class="section-subtitle">Fiches publiées, sourcées et vérifiées.</p>
+      </div>
+      <a href="{% url 'tourism:explore' %}" class="btn btn-outline">Voir toutes les destinations</a>
+    </div>
+
+    {% if highlighted %}
+      <div class="grid">
+        {% for site in highlighted %}
+          {% include "tourism/_site_card.html" with site=site %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Aucune fiche publiée pour le moment. Exécutez <code>python manage.py seed_data</code> puis publiez des fiches depuis l'administration.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title"><h2>Régions du Cameroun</h2></div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(160px,1fr));">
+      {% for region in regions %}
+        <a class="card" href="{% url 'tourism:explore' %}?region={{ region.id }}">
+          <div class="card-body">
+            <h3 style="font-size:1rem;">{{ region.name }}</h3>
+            <span class="card-meta">{{ region.sites.count }} site{{ region.sites.count|pluralize }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<p class="section-subtitle">{{ sites|length }} destination{{ sites|length|pluralize }} trouvée{{ sites|length|pluralize }}.</p>
+
+{% if sites %}
+  <div class="grid">
+    {% for site in sites %}
+      {% include "tourism/_site_card.html" with site=site %}
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <p>Aucun site ne correspond à votre recherche pour le moment.<br>
+    Essayez d'élargir vos critères, ou <a href="{% url 'tourism:chat' %}">posez la question à CamWay</a>.</p>
+  </div>
+{% endif %}

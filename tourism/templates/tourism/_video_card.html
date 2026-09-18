@@ -1,0 +1,27 @@
+<div class="video-evidence-card">
+  <button type="button" class="video-evidence-thumb"
+          data-video-id="{{ video.youtube_video_id }}"
+          data-video-title="{{ video.title|default:video.site.name }}"
+          aria-label="Ouvrir la vidéo : {{ video.title|default:video.site.name }}">
+    {% if video.thumbnail_url %}
+      <img src="{{ video.thumbnail_url }}" alt="Miniature de la vidéo : {{ video.title|default:video.site.name }}" loading="lazy">
+    {% else %}
+      <span class="video-evidence-thumb-fallback"><i class="fa-brands fa-youtube"></i></span>
+    {% endif %}
+    <span class="video-evidence-play"><i class="fa-solid fa-play"></i></span>
+  </button>
+  <div class="video-evidence-body">
+    <p class="video-evidence-title">{{ video.title|default:"Vidéo du site" }}</p>
+    {% if video.channel_title %}<p class="video-evidence-channel">{{ video.channel_title }}</p>{% endif %}
+    <span class="video-evidence-badge {% if video.is_verified %}verified{% else %}unverified{% endif %}">
+      {% if video.is_verified %}
+        <i class="fa-solid fa-circle-check icon"></i> Vidéo vérifiée
+      {% else %}
+        <i class="fa-solid fa-triangle-exclamation icon"></i> Vidéo non vérifiée
+      {% endif %}
+    </span>
+    <a href="{{ video.watch_url }}" target="_blank" rel="noopener" class="video-evidence-link">
+      Ouvrir sur YouTube <i class="fa-solid fa-arrow-up-right-from-square icon"></i>
+    </a>
+  </div>
+</div>

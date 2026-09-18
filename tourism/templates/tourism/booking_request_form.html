@@ -1,0 +1,29 @@
+{% extends "tourism/base.html" %}
+{% block title %}Demande de réservation — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:560px;">
+    <h2><i class="fa-solid fa-envelope icon"></i> Demande de réservation</h2>
+    <p class="section-subtitle">
+      {% if provider %}Pour : <strong>{{ provider.name }}</strong>{% elif site %}Pour : <strong>{{ site.name }}</strong>{% endif %}
+    </p>
+    <div class="disclaimer-strip" style="margin-bottom:1.2rem; border-radius:10px;">
+      Il ne s'agit pas d'une réservation garantie : votre demande
+      sera traitée manuellement, sans paiement en ligne automatique.
+    </div>
+
+    <form method="post" class="form-card">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+          {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-secondary btn-block">Envoyer ma demande</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

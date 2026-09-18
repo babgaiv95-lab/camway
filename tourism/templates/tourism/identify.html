@@ -1,0 +1,84 @@
+{% extends "tourism/base.html" %}
+{% load l10n static %}
+{% block title %}Identifier un lieu par photo — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:560px;">
+    <h2><i class="fa-solid fa-camera icon"></i> Identifier un lieu par photo</h2>
+    <p class="section-subtitle">
+      Prenez une photo avec l'appareil de votre téléphone, ou choisissez-en une.
+      Fonctionnalité expérimentale : CamWay ne propose qu'une hypothèse à vérifier,
+      jamais une certitude, pour éviter toute identification erronée.
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="form-card">
+      {% csrf_token %}
+
+      <div id="camera-capture" class="camera-box">
+        <div class="camera-live" data-camera-live hidden>
+          <video data-camera-video autoplay playsinline muted></video>
+        </div>
+        <canvas data-camera-canvas hidden></canvas>
+        <img data-camera-preview class="camera-preview-img" alt="Photo capturée" hidden>
+
+        <div class="camera-actions">
+          <button type="button" class="btn btn-secondary" data-camera-start>
+            <i class="fa-solid fa-camera icon"></i> Prendre une photo
+          </button>
+          <button type="button" class="btn btn-primary" data-camera-shot hidden>
+            <i class="fa-solid fa-circle-dot icon"></i> Capturer
+          </button>
+          <button type="button" class="btn btn-outline" data-camera-retake hidden>
+            <i class="fa-solid fa-rotate icon"></i> Reprendre
+          </button>
+        </div>
+        <p class="camera-hint">
+          Si votre navigateur ne propose pas l'aperçu caméra, l'appareil photo de votre
+          téléphone s'ouvrira directement, ou vous pourrez choisir une photo existante.
+        </p>
+
+        {{ form.image }}
+      </div>
+      {% if form.image.errors %}<ul class="errorlist">{% for e in form.image.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+      <button type="submit" class="btn btn-secondary btn-block" style="margin-top:1rem;">Analyser la photo</button>
+    </form>
+
+    {% if result %}
+      <div class="trust-box {% if not result.available %}low-confidence{% endif %}" style="margin-top:1.4rem;">
+        {% if result.available %}
+          <h3 style="margin-top:0; font-size:.95rem;">Hypothèse (à vérifier)</h3>
+          <p>{{ result.hypothesis }}</p>
+          {% if result.matched_site %}
+            <p style="margin:0 0 .5rem;">
+              <i class="fa-solid fa-circle-check icon"></i>
+              Correspondance trouvée dans notre base :
+              <a href="{% url 'tourism:site_detail' result.matched_site.slug %}">{{ result.matched_site.name }}</a>
+            </p>
+            {% if result.matched_site.latitude and result.matched_site.longitude %}
+            <div class="geo-panel" data-cw-distance data-geo-label="Distance jusqu'à ce site"
+                 data-lat="{{ result.matched_site.latitude|unlocalize }}"
+                 data-lng="{{ result.matched_site.longitude|unlocalize }}"
+                 style="margin:.6rem 0;"></div>
+            {% endif %}
+          {% else %}
+            <p style="margin:0 0 .5rem; color:var(--cw-ink-soft);">Aucune fiche correspondante n'a été retrouvée dans notre base.</p>
+          {% endif %}
+          <p style="font-size:.82rem; margin:0;">{{ result.message }}</p>
+        {% else %}
+          <h3 style="margin-top:0; font-size:.95rem;">Identification non disponible</h3>
+          <p style="margin:0;">{{ result.message }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <p style="margin-top:1.4rem; font-size:.85rem;">
+      Vous cherchez plutôt à découvrir un lieu par le texte ? Essayez le
+      <a href="{% url 'tourism:chat' %}">dialogue avec CamWay</a>, fondé uniquement sur des données vérifiées.
+    </p>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'tourism/js/camera-capture.js' %}"></script>
+{% endblock %}

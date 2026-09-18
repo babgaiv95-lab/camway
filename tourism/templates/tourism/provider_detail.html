@@ -1,0 +1,71 @@
+{% extends "tourism/base.html" %}
+{% block title %}{{ provider.name }} — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'tourism:home' %}">Accueil</a> ›
+      <a href="{% url 'tourism:providers_list' %}">Prestataires</a> ›
+      {{ provider.name }}
+    </div>
+
+    <h1>{{ provider.name }}</h1>
+    <div class="card-meta" style="margin-bottom:1rem;">
+      <span class="tag">{{ provider.get_provider_type_display }}</span>
+      <span><i class="fa-solid fa-location-dot icon"></i> {{ provider.region.name }}</span>
+    </div>
+
+    <p>{{ provider.description|default:"Aucune description renseignée pour le moment."|linebreaksbr }}</p>
+
+    <div class="detail-grid">
+      <div>
+        {% if provider.sites.all %}
+        <div class="detail-block">
+          <h3>Sites concernés</h3>
+          <ul class="list-plain">
+            {% for s in provider.sites.all %}
+              <li><i class="fa-solid fa-location-dot icon"></i> <a href="{% url 'tourism:site_detail' s.slug %}">{{ s.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <div class="hero-actions">
+          <a href="{% url 'tourism:booking_request_provider' provider.slug %}" class="btn btn-secondary"><i class="fa-solid fa-envelope icon"></i> Envoyer une demande</a>
+          {% if provider.website %}<a href="{{ provider.website }}" target="_blank" rel="noopener" class="btn btn-outline"><i class="fa-solid fa-link icon"></i> Site web</a>{% endif %}
+        </div>
+        <p style="font-size:.82rem; color:var(--cw-ink-soft); margin-top:.6rem;">
+          <i class="fa-solid fa-triangle-exclamation icon"></i> Il s'agit d'une demande d'intérêt, traitée manuellement — pas d'une réservation garantie ni d'un paiement en ligne.
+        </p>
+      </div>
+
+      <div>
+        <div class="detail-block">
+          <h3>Contact</h3>
+          <ul class="list-plain">
+            {% if provider.contact_phone %}<li><i class="fa-solid fa-phone icon"></i> {{ provider.contact_phone }}</li>{% endif %}
+            {% if provider.contact_email %}<li><i class="fa-solid fa-envelope icon"></i> {{ provider.contact_email }}</li>{% endif %}
+          </ul>
+        </div>
+
+        <div class="trust-box {% if not provider.is_verified %}low-confidence{% endif %}">
+          <p style="margin:0 0 .5rem;">
+            <span class="confidence-pill">
+              {% if provider.is_verified %}<span class="dot dot-green"></span> Prestataire vérifié{% else %}<span class="dot dot-grey"></span> Non encore vérifié{% endif %}
+            </span>
+          </p>
+          {% if provider.sources.all %}
+            <ul class="list-plain">
+              {% for source in provider.sources.all %}
+                <li><i class="fa-solid fa-file-lines icon"></i> {% if source.url %}<a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.name }}</a>{% else %}{{ source.name }}{% endif %}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p style="font-size:.85rem; margin:0;">Aucune source associée : ce prestataire n'est pas encore vérifié par l'équipe CamWay.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

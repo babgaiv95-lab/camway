@@ -1,0 +1,24 @@
+{% if searched %}
+  {% if ai_summary %}
+    <div class="trust-box" style="margin-bottom:1rem;">
+      <p style="margin:0;">{{ ai_summary }}</p>
+    </div>
+  {% endif %}
+  <p class="section-subtitle">{{ results|length }} recommandation{{ results|length|pluralize }} pour votre demande.</p>
+  {% if results %}
+    <div class="grid">
+      {% for site in results %}
+        {% include "tourism/_site_card.html" with site=site %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>Aucune destination vérifiée ne correspond exactement à ces critères pour le moment.<br>
+      Essayez d'élargir votre recherche ou <a href="{% url 'tourism:chat' %}">discutez-en directement avec CamWay</a>.</p>
+    </div>
+  {% endif %}
+{% else %}
+  <div class="empty-state">
+    <p>Renseignez vos critères ci-dessus pour recevoir des suggestions contextualisées.</p>
+  </div>
+{% endif %}

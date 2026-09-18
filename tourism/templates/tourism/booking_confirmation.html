@@ -1,0 +1,26 @@
+{% extends "tourism/base.html" %}
+{% block title %}Demande envoyée — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:560px;">
+    <div class="empty-state" style="background:var(--cw-card); border:1px solid var(--cw-border); border-radius:var(--cw-radius); padding:2rem;">
+      <h2><i class="fa-solid fa-circle-check icon"></i> Demande envoyée</h2>
+      <p>Merci {{ booking.full_name }}, votre demande a bien été enregistrée sous le statut
+      « {{ booking.get_status_display }} ». Elle sera traitée manuellement par l'équipe CamWay
+      ou le prestataire concerné.</p>
+
+      {% if payment_message %}
+        <div class="trust-box low-confidence" style="text-align:left; margin-top:1.2rem;">
+          <h3 style="margin-top:0; font-size:.9rem;">À propos du paiement</h3>
+          <p style="margin:0;">{{ payment_message }}</p>
+        </div>
+      {% endif %}
+
+      <div class="hero-actions" style="justify-content:center; margin-top:1.5rem;">
+        <a href="{% url 'tourism:home' %}" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="{% url 'tourism:explore' %}" class="btn btn-outline">Continuer à explorer</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

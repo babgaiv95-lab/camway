@@ -1,0 +1,59 @@
+{% extends "tourism/base.html" %}
+{% block title %}Dialoguer avec CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-comments icon"></i> Dialoguer avec CamWay</h2>
+        <p class="section-subtitle">Posez une question en langage naturel. CamWay ne répond qu'à partir de données sourcées.</p>
+      </div>
+      <form method="post" action="{% url 'tourism:chat_reset' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-ghost btn-sm"><i class="fa-solid fa-trash icon"></i> Réinitialiser la conversation</button>
+      </form>
+    </div>
+
+    <div class="chat-examples">
+      <button type="button" data-text="Que puis-je visiter à Kribi ?">Que puis-je visiter à Kribi ?</button>
+      <button type="button" data-text="Je veux découvrir des sites naturels.">Je veux découvrir des sites naturels.</button>
+      <button type="button" data-text="J'ai deux jours pour visiter le Cameroun.">J'ai 2 jours pour visiter le Cameroun.</button>
+      <button type="button" data-text="Quel site culturel pourrais-je visiter ?">Quel site culturel pourrais-je visiter ?</button>
+    </div>
+
+    <div class="chat-shell">
+      <div class="chat-messages">
+        {% if not chat_messages %}
+          <div class="chat-empty">
+            <i class="fa-solid fa-hand icon"></i> Bonjour ! Je suis CamWay. Dites-moi ce que vous souhaitez découvrir au Cameroun
+            (destination, durée, budget, centres d'intérêt) et je chercherai dans la base de
+            données vérifiées.
+          </div>
+        {% endif %}
+        {% for m in chat_messages %}
+          <div class="chat-bubble {{ m.role }}">
+            {{ m.content }}
+            {% if m.referenced_sites.all %}
+              <span class="cite">
+                {% for s in m.referenced_sites.all %}
+                  <a href="{% url 'tourism:site_detail' s.slug %}"><i class="fa-solid fa-location-dot icon"></i> {{ s.name }}</a>{% if not forloop.last %} · {% endif %}
+                {% endfor %}
+              </span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if form.errors %}
+        <div class="chat-empty" style="color:#b42318;">
+          {% for error in form.message.errors %}{{ error }}{% endfor %}
+        </div>
+      {% endif %}
+      <form method="post" class="chat-input-bar">
+        {% csrf_token %}
+        <input type="text" id="chat-message-input" name="message" value="{{ form.message.value|default:'' }}" placeholder="{{ form.message.field.widget.attrs.placeholder }}" autocomplete="off" required>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

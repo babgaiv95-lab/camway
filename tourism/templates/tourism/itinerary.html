@@ -1,0 +1,80 @@
+{% extends "tourism/base.html" %}
+{% block title %}Mon itinéraire — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-map icon"></i> Construction d'itinéraire</h2>
+        <p class="section-subtitle">Transformez une sélection de lieux en programme de visite.</p>
+      </div>
+    </div>
+
+    <form method="post" class="form-card filter-form" style="margin-bottom:1.6rem;">
+      {% csrf_token %}
+      <div class="field">
+        <label for="{{ setup_form.title.id_for_label }}">{{ setup_form.title.label }}</label>
+        {{ setup_form.title }}
+      </div>
+      <div class="field">
+        <label for="{{ setup_form.duration_days.id_for_label }}">{{ setup_form.duration_days.label }}</label>
+        {{ setup_form.duration_days }}
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
+      </div>
+    </form>
+
+    {% if itinerary and items %}
+      {% if itinerary.total_estimated_budget %}
+        <p class="tag" style="font-size:.9rem; padding:.4rem .9rem;">
+          <i class="fa-solid fa-money-bill-wave icon"></i> Budget total estimé : {{ itinerary.total_estimated_budget|floatformat:"0" }} FCFA
+          <span style="font-weight:400;">(affiché uniquement pour les étapes disposant d'une donnée fiable)</span>
+        </p>
+      {% endif %}
+
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top:1rem;">
+        {% for day in days_range %}
+          <div class="day-column">
+            <h3>Jour {{ day }}</h3>
+            {% with day_items=items|dictsort:"day_number" %}
+              {% for item in items %}
+                {% if item.day_number == day %}
+                  <div class="itinerary-item">
+                    <div>
+                      <strong>{{ item.site.name }}</strong><br>
+                      <span style="color:var(--cw-ink-soft);"><i class="{{ item.site.category.icon }} icon"></i> {{ item.site.category.name }} · {{ item.site.region.name }}</span>
+                    </div>
+                    <div style="display:flex; gap:.4rem; align-items:center;">
+                      <a href="{% url 'tourism:site_detail' item.site.slug %}" class="btn btn-outline btn-sm">Voir</a>
+                      <form method="post" action="{% url 'tourism:itinerary_remove' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark icon"></i></button>
+                      </form>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endwith %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Votre itinéraire est vide pour le moment.<br>
+        Parcourez les <a href="{% url 'tourism:explore' %}">destinations</a> ou obtenez des
+        <a href="{% url 'tourism:recommend' %}">recommandations</a>, puis cliquez sur « Ajouter à mon itinéraire ».</p>
+      </div>
+    {% endif %}
+
+    <div class="detail-block" style="margin-top:2rem;">
+      <h3>Limites de l'itinéraire</h3>
+      <p style="font-size:.88rem; margin:0;">
+        Les temps de trajet et coûts de déplacement ne sont affichés que lorsqu'ils proviennent de
+        données suffisamment fiables. CamWay ne garantit pas la disponibilité des services
+        touristiques ni une précision parfaite de l'itinéraire.
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

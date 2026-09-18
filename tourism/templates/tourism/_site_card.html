@@ -1,0 +1,29 @@
+{% load static l10n %}
+<a class="card" href="{% url 'tourism:site_detail' site.slug %}">
+  <div class="card-img" style="background-image:url('{{ site.image_url }}');">
+    <span class="card-badge confidence-{{ site.confidence_level }}">
+      {% if site.is_data_sufficient %}<i class="fa-solid fa-circle-check icon"></i> Vérifié{% else %}<i class="fa-solid fa-triangle-exclamation icon"></i> À vérifier{% endif %}
+    </span>
+  </div>
+  <div class="card-body">
+    <h3>{{ site.name }}</h3>
+    <div class="card-meta">
+      <span><i class="{{ site.category.icon }} icon"></i> {{ site.category.name }}</span>
+      <span>·</span>
+      <span><i class="fa-solid fa-location-dot icon"></i> {{ site.commune|default:site.region.name }}</span>
+    </div>
+    <p class="card-desc">{{ site.description|truncatewords:20 }}</p>
+    {% if site.latitude and site.longitude %}
+      <div class="card-distance" data-cw-distance-text
+           data-lat="{{ site.latitude|unlocalize }}" data-lng="{{ site.longitude|unlocalize }}"></div>
+    {% endif %}
+    <div class="card-footer">
+      {% if site.estimated_budget_fcfa %}
+        <span class="tag">{{ site.estimated_budget_fcfa|floatformat:"0" }} FCFA</span>
+      {% else %}
+        <span class="tag">Budget non renseigné</span>
+      {% endif %}
+      <span style="font-size:.85rem; font-weight:700; color: var(--cw-green-dark);">Voir la fiche →</span>
+    </div>
+  </div>
+</a>

@@ -1,0 +1,65 @@
+{% extends "tourism/base.html" %}
+{% block title %}Recommandations personnalisées — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-bullseye icon"></i> Recommandation personnalisée</h2>
+        <p class="section-subtitle">Indiquez vos contraintes : CamWay recommande à partir des données disponibles.</p>
+      </div>
+    </div>
+
+    <form method="get" class="form-card auto-filter" style="margin-bottom:1.6rem;">
+      <div class="filter-form">
+        <div class="field">
+          <label for="{{ form.region.id_for_label }}">{{ form.region.label }}</label>
+          {{ form.region }}
+        </div>
+        <div class="field">
+          <label for="{{ form.duration.id_for_label }}">{{ form.duration.label }}</label>
+          {{ form.duration }}
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="{{ form.budget.id_for_label }}">{{ form.budget.label }}</label>
+          {{ form.budget }}
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>{{ form.interests.label }}</label>
+        <div class="checkbox-list">
+          {% for checkbox in form.interests %}
+            <label>{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+          {% endfor %}
+        </div>
+      </div>
+      <noscript><button type="submit" class="btn btn-secondary">Obtenir des recommandations</button></noscript>
+    </form>
+
+    {% if searched %}
+      {% if ai_summary %}
+        <div class="trust-box" style="margin-bottom:1rem;">
+          <p style="margin:0;">{{ ai_summary }}</p>
+        </div>
+      {% endif %}
+      <p class="section-subtitle">{{ results|length }} recommandation{{ results|length|pluralize }} pour votre demande.</p>
+      {% if results %}
+        <div class="grid">
+          {% for site in results %}
+            {% include "tourism/_site_card.html" with site=site %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <p>Aucune destination vérifiée ne correspond exactement à ces critères pour le moment.<br>
+          Essayez d'élargir votre recherche ou <a href="{% url 'tourism:chat' %}">discutez-en directement avec CamWay</a>.</p>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="empty-state">
+        <p>Renseignez vos critères ci-dessus pour recevoir des suggestions contextualisées.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

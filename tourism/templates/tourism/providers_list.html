@@ -1,0 +1,45 @@
+{% extends "tourism/base.html" %}
+{% block title %}Prestataires vérifiés — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2><i class="fa-solid fa-handshake icon"></i> Réseau touristique vérifié</h2>
+        <p class="section-subtitle">Guides, agences, hébergements et prestataires d'activités.</p>
+      </div>
+    </div>
+
+    <div class="chat-examples" style="margin-bottom:1.4rem;">
+      <a href="{% url 'tourism:providers_list' %}" class="{% if not selected_type %}btn btn-outline btn-sm{% else %}btn btn-ghost btn-sm{% endif %}">Tous</a>
+      {% for value, label in provider_types %}
+        <a href="?type={{ value }}" class="{% if selected_type == value %}btn btn-outline btn-sm{% else %}btn btn-ghost btn-sm{% endif %}">{{ label }}</a>
+      {% endfor %}
+    </div>
+
+    {% if providers %}
+      <div class="grid">
+        {% for p in providers %}
+          <a class="card" href="{% url 'tourism:provider_detail' p.slug %}">
+            <div class="card-body">
+              <h3>{{ p.name }}</h3>
+              <div class="card-meta">
+                <span class="tag">{{ p.get_provider_type_display }}</span>
+                <span><i class="fa-solid fa-location-dot icon"></i> {{ p.region.name }}</span>
+              </div>
+              <p class="card-desc">{{ p.description|default:"Description à venir."|truncatewords:20 }}</p>
+              <span class="card-badge confidence-{{ p.confidence_level }}" style="position:static; display:inline-block;">
+                {% if p.is_verified %}<i class="fa-solid fa-circle-check icon"></i> Vérifié{% else %}<i class="fa-solid fa-triangle-exclamation icon"></i> À vérifier{% endif %}
+              </span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Aucun prestataire publié pour le moment. Ajoutez-en depuis l'espace <a href="/admin/tourism/provider/add/">administration</a>.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

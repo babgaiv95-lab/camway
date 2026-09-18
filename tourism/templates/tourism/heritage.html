@@ -1,0 +1,43 @@
+{% extends "tourism/base.html" %}
+{% block title %}Patrimoine — {{ site.name }} — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'tourism:home' %}">Accueil</a> ›
+      <a href="{% url 'tourism:site_detail' site.slug %}">{{ site.name }}</a> ›
+      Patrimoine
+    </div>
+
+    <h1><i class="fa-solid fa-landmark icon"></i> {{ site.name }} — Contexte et patrimoine</h1>
+    <p class="section-subtitle">
+      Le contenu ci-dessous reste limité aux informations présentes dans les sources exploitées.
+    </p>
+
+    <div class="detail-hero" style="background-image:url('{{ site.image_url }}'); height:220px;"></div>
+
+    <div class="detail-block">
+      <h3>Origine et description</h3>
+      <p>{{ site.description|linebreaksbr }}</p>
+    </div>
+
+    {% if site.is_data_sufficient %}
+      <div class="trust-box">
+        <p style="margin:0;"><i class="fa-solid fa-circle-check icon"></i> Ces informations s'appuient sur {{ site.sources.count }} source{{ site.sources.count|pluralize }} vérifiée{{ site.sources.count|pluralize }},
+        avec une confiance <strong>{{ site.get_confidence_level_display }}</strong>.</p>
+      </div>
+    {% else %}
+      <div class="trust-box low-confidence">
+        <p style="margin:0;"><i class="fa-solid fa-triangle-exclamation icon"></i> Ces informations n'ont pas encore de source suffisamment fiable associée. CamWay ne peut pas les présenter comme certaines
+        et vous invite à les recouper avec une source officielle, par exemple le
+        <a href="https://mintoul.gov.cm/cameroun-en-decouverte/sites-touristiques/" target="_blank" rel="noopener">portail MINTOUL</a>.</p>
+      </div>
+    {% endif %}
+
+    <div class="hero-actions" style="margin-top:1.5rem;">
+      <a href="{% url 'tourism:site_detail' site.slug %}" class="btn btn-outline">← Retour à la fiche</a>
+      <a href="{% url 'tourism:chat' %}" class="btn btn-primary"><i class="fa-solid fa-comments icon"></i> Poser une question sur ce site</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
