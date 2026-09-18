@@ -1,1 +1,79 @@
+{% extends "tourism/base.html" %}
+{% block title %}Conditions générales d'utilisation — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:780px;">
+    <div class="breadcrumb"><a href="{% url 'tourism:home' %}">Accueil</a> › Conditions générales d'utilisation</div>
+    <h1>Conditions générales d'utilisation</h1>
 
+    <div class="legal-notice" style="background:#fff7e6; border:1px solid #f0d999; border-radius:10px; padding:1rem 1.2rem; margin:1.2rem 0; font-size:.88rem;">
+      <strong><i class="fa-solid fa-triangle-exclamation icon"></i> Modèle à compléter et faire valider</strong>
+      par le service juridique de l'organisme porteur avant mise en production.
+    </div>
+
+    <h2>1. Objet</h2>
+    <p>
+      CamWay est un assistant d'information touristique sur le Cameroun. Il permet
+      d'explorer des destinations, de dialoguer avec un assistant conversationnel, d'obtenir
+      des recommandations, de construire un itinéraire indicatif et de contacter des
+      prestataires.
+    </p>
+
+    <h2>2. Ce que CamWay n'est pas</h2>
+    <ul>
+      <li>CamWay n'est <strong>pas une plateforme de réservation</strong> : toute
+        « demande de réservation » transmise via le site est une simple mise en relation,
+        traitée manuellement par le prestataire concerné, et n'est jamais garantie tant
+        qu'elle n'a pas été explicitement confirmée par ce dernier.</li>
+      <li>CamWay ne traite <strong>aucun paiement en ligne</strong>.</li>
+      <li>Les informations dynamiques (météo, horaires, disponibilité) sont fournies à
+        titre indicatif et ne sont pas garanties en temps réel.</li>
+    </ul>
+
+    <h2>3. Fiabilité des informations</h2>
+    <p>
+      Chaque fiche touristique indique ses sources et son niveau de vérification. CamWay
+      s'engage à ne jamais présenter une information non sourcée comme certaine. L'assistant
+      conversationnel ne répond qu'à partir des fiches publiées de la base de données ; en
+      l'absence de résultat pertinent, il l'indique explicitement plutôt que d'inventer une
+      réponse.
+    </p>
+
+    <h2>4. Compte visiteur</h2>
+    <p>
+      La création d'un compte est facultative. Elle permet de conserver son itinéraire sur
+      plusieurs appareils. Chaque visiteur est responsable de la confidentialité de ses
+      identifiants et des informations qu'il transmet via le site.
+    </p>
+
+    <h2>5. Contenu transmis par le visiteur</h2>
+    <p>
+      En utilisant le dialogue ou l'identification de lieu par photo, le visiteur s'engage à
+      ne transmettre aucun contenu illicite, portant atteinte aux droits de tiers, ou
+      contraire à l'ordre public. L'identification par photo est une fonctionnalité
+      expérimentale : elle propose une hypothèse à vérifier, jamais une certitude.
+    </p>
+
+    <h2>6. Propriété intellectuelle</h2>
+    <p>
+      Voir les <a href="{% url 'tourism:mentions_legales' %}">mentions légales</a> pour le
+      régime applicable aux contenus du site.
+    </p>
+
+    <h2>7. Modification des présentes conditions</h2>
+    <p>
+      Ces conditions peuvent être mises à jour ; la date de dernière modification sera
+      indiquée en bas de page. L'utilisation continue du site vaut acceptation des
+      conditions en vigueur.
+    </p>
+
+    <h2>8. Contact</h2>
+    <p>Pour toute question relative à ces conditions : babgaiv95@gmail.com.</p>
+
+    <p style="margin-top:2rem; font-size:.82rem; color:var(--cw-ink-soft);">
+      Voir aussi : <a href="{% url 'tourism:mentions_legales' %}">Mentions légales</a> ·
+      <a href="{% url 'tourism:confidentialite' %}">Politique de confidentialité</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "tourism/base.html" %}
+{% block title %}Politique de confidentialité — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:780px;">
+    <div class="breadcrumb"><a href="{% url 'tourism:home' %}">Accueil</a> › Politique de confidentialité</div>
+    <h1>Politique de confidentialité</h1>
+
+    <div class="legal-notice" style="background:#fff7e6; border:1px solid #f0d999; border-radius:10px; padding:1rem 1.2rem; margin:1.2rem 0; font-size:.88rem;">
+      <strong><i class="fa-solid fa-triangle-exclamation icon"></i> Modèle à compléter et faire valider.</strong>
+      Les informations entre crochets doivent être renseignées et ce texte validé par le
+      service juridique de l'organisme porteur avant mise en production, conformément au
+      cadre camerounais applicable (notamment la loi n° 2010/012 relative à la
+      cybersécurité et à la cybercriminalité) et, le cas échéant, aux exigences propres aux
+      systèmes d'information de l'État relayées par l'ANTIC.
+    </div>
+
+    <h2>Qui collecte vos données ?</h2>
+    <p>
+      Le responsable du traitement est [dénomination officielle de l'organisme porteur —
+      ex. MINTOUL], contact : [adresse e-mail dédiée aux demandes relatives aux données
+      personnelles].
+    </p>
+
+    <h2>Quelles données CamWay collecte-t-il, et pourquoi ?</h2>
+    <table style="width:100%; border-collapse:collapse; font-size:.9rem; margin:.8rem 0;">
+      <thead>
+        <tr style="text-align:left; border-bottom:2px solid var(--cw-green-light);">
+          <th style="padding:.5rem;">Donnée</th>
+          <th style="padding:.5rem;">Quand</th>
+          <th style="padding:.5rem;">Finalité</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:.5rem;">Nom d'utilisateur, e-mail, mot de passe (stocké de façon chiffrée, jamais en clair)</td>
+          <td style="padding:.5rem;">Création d'un compte visiteur (facultative)</td>
+          <td style="padding:.5rem;">Retrouver son itinéraire et ses demandes sur tous ses appareils</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:.5rem;">Nom complet, e-mail, téléphone, message</td>
+          <td style="padding:.5rem;">Demande de réservation auprès d'un prestataire</td>
+          <td style="padding:.5rem;">Permettre au prestataire sollicité de recontacter le visiteur — la demande n'est jamais une réservation garantie</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:.5rem;">Contenu des messages échangés avec l'assistant</td>
+          <td style="padding:.5rem;">Utilisation du dialogue (F2)</td>
+          <td style="padding:.5rem;">Générer une réponse pertinente à partir de la base de données ; améliorer le service</td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem;">Photo transmise</td>
+          <td style="padding:.5rem;">Utilisation de l'identification de lieu par photo (fonctionnalité expérimentale)</td>
+          <td style="padding:.5rem;">Générer une hypothèse d'identification, jamais présentée comme certaine</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Aucune donnée n'est vendue ni cédée à des tiers à des fins commerciales ou publicitaires.</p>
+
+    <h2>Cookies</h2>
+    <p>
+      CamWay n'utilise que des cookies strictement nécessaires au fonctionnement du site :
+      un cookie de session (pour vous reconnaître pendant votre navigation, notamment votre
+      itinéraire en cours de construction) et un cookie de sécurité (protection contre les
+      attaques CSRF). <strong>Aucun cookie de mesure d'audience ou de publicité n'est
+      déposé.</strong>
+    </p>
+
+    <h2>Combien de temps vos données sont-elles conservées ?</h2>
+    <p>Ccompte visiteur conservé
+      tant qu'il est actif, puis supprimé après  d'inactivité ; demandes de
+      réservation conservées  à des fins de suivi ; messages de dialogue conservé.
+    </p>
+
+    <h2>Vos droits</h2>
+    <p>
+      Conformément au cadre applicable en matière de protection des données personnelles,
+      vous disposez d'un droit d'accès, de rectification et de suppression des données vous
+      concernant. Pour l'exercer, contactez babgaiv95@gmail.com en précisant votre
+      identité. Vous pouvez à tout moment demander la suppression de votre compte visiteur
+      depuis la page <a href="{% url 'tourism:account' %}">Mon compte</a> ou par simple
+      demande écrite.
+    </p>
+
+    <h2>Sécurité</h2>
+    <p>
+      Le site est servi en connexion chiffrée et les mots de passe sont stockés
+      selon les standards de hachage . L'accès à
+      l'espace d'administration est réservé au personnel autorisé de Camway.
+    </p>
+
+    <p style="margin-top:2rem; font-size:.82rem; color:var(--cw-ink-soft);">
+      Voir aussi : <a href="{% url 'tourism:mentions_legales' %}">Mentions légales</a> ·
+      <a href="{% url 'tourism:cgu' %}">Conditions générales d'utilisation</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

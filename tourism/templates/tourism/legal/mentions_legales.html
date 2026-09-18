@@ -1,0 +1,76 @@
+{% extends "tourism/base.html" %}
+{% block title %}Mentions légales — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:780px;">
+    <div class="breadcrumb"><a href="{% url 'tourism:home' %}">Accueil</a> › Mentions légales</div>
+    <h1>Mentions légales</h1>
+
+    <div class="legal-notice" style="background:#fff7e6; border:1px solid #f0d999; border-radius:10px; padding:1rem 1.2rem; margin:1.2rem 0; font-size:.88rem;">
+      <strong><i class="fa-solid fa-triangle-exclamation icon"></i> Modèle à compléter et faire valider.</strong>
+      Ce texte pose le cadre habituel d'une mention légale institutionnelle, mais les
+      informations entre crochets doivent être renseignées et l'ensemble validé par le
+      service juridique du MINTOUL (ou de l'organisme porteur du site) avant toute mise en
+      production, conformément notamment à la loi camerounaise n° 2010/012 relative à la
+      cybersécurité et à la cybercriminalité et à la loi n° 2010/013 régissant les
+      communications électroniques.
+    </div>
+
+    <h2>Éditeur du site</h2>
+    <p>
+      CamWay est édité par [dénomination officielle de l'organisme porteur — ex. Ministère
+      du Tourisme et des Loisirs (MINTOUL) de la République du Cameroun].<br>
+      Adresse : [adresse postale complète]<br>
+      Contact : [adresse e-mail officielle] — [numéro de téléphone officiel]<br>
+      Directeur de la publication : [nom, fonction]
+    </p>
+
+    <h2>Hébergement</h2>
+    <p>
+      Le site est hébergé par [raison sociale de l'hébergeur], [adresse de l'hébergeur],
+      [contact de l'hébergeur]. L'hébergement doit être choisi conformément aux exigences
+      de souveraineté et de sécurité des données applicables aux systèmes d'information de
+      l'État, le cas échéant en lien avec l'ANTIC (Agence Nationale des Technologies de
+      l'Information et de la Communication).
+    </p>
+
+    <h2>Nature du service</h2>
+    <p>
+      CamWay est un assistant d'information touristique. Il aide à comprendre, choisir,
+      organiser et découvrir des destinations au Cameroun à partir de données structurées,
+      sourcées et vérifiées (voir la page <a href="{% url 'tourism:explore' %}">Explorer</a>
+      pour le détail des sources par fiche).
+    </p>
+    <p>
+      <strong>CamWay n'est ni une plateforme de réservation ni un service de paiement.</strong>
+      Les demandes de réservation transmises via le site sont des demandes non garanties,
+      traitées manuellement par les prestataires concernés — voir les
+      <a href="{% url 'tourism:cgu' %}">conditions générales d'utilisation</a>.
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      Sauf mention contraire, les contenus éditoriaux (textes, structure du site) sont la
+      propriété de l'éditeur. Les visuels intégrés proviennent de sources libres de droits
+      (Wikimedia Commons) ou de l'éditeur ; toute réutilisation doit respecter la licence
+      d'origine indiquée sur chaque fiche.
+    </p>
+
+    <h2>Limitation de responsabilité</h2>
+    <p>
+      Les informations dynamiques affichées (météo, disponibilité de prestataires) sont
+      fournies par des services tiers et à titre indicatif : elles ne sont pas garanties en
+      temps réel. CamWay s'engage en revanche à ne jamais présenter comme certaine une
+      information touristique non sourcée ni vérifiée.
+    </p>
+
+    <h2>Contact</h2>
+    <p>Pour toute question relative au site : [adresse e-mail de contact officielle].</p>
+
+    <p style="margin-top:2rem; font-size:.82rem; color:var(--cw-ink-soft);">
+      Voir aussi : <a href="{% url 'tourism:confidentialite' %}">Politique de confidentialité</a> ·
+      <a href="{% url 'tourism:cgu' %}">Conditions générales d'utilisation</a>
+    </p>
+  </div>
+</section>
+{% endblock %}
