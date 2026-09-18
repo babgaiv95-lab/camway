@@ -1,0 +1,13 @@
+# Secrets locaux — ne jamais versionner ni partager (voir .env.example)
+.env
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

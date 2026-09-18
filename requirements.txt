@@ -1,0 +1,13 @@
+Django==5.0.9
+Pillow==12.1.1
+python-dotenv==1.2.2
+google-genai==2.23.0
+
+# --- Production (mise en ligne réelle) ---
+gunicorn==23.0.0          # serveur WSGI de production (remplace `runserver`)
+whitenoise==6.8.2         # sert les fichiers statiques sans serveur web externe
+dj-database-url==2.3.0    # permet de configurer Postgres via DATABASE_URL en .env
+psycopg2-binary==2.9.10   # pilote PostgreSQL (recommandé en production ; inutile si vous restez sur SQLite)
+
+# Note : sans clé configurée dans .env, CamWay bascule automatiquement sur son
+# moteur de secours fondé uniquement sur la base de données (voir README).
