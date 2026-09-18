@@ -1,17 +1,8 @@
 # 🇨🇲 CamWay — Assistant touristique intelligent du Cameroun
 
-Application web Django implémentant le **MVP** décrit dans le cahier des
-charges *CamWay* : un assistant qui aide un visiteur à **comprendre,
-choisir, organiser et découvrir** le Cameroun à partir de données
-touristiques **structurées, sourcées et vérifiées**.
-
-> CamWay n'est pas une plateforme de réservation ni de paiement (hors
-> périmètre du MVP, §7.2). L'IA est une couche d'interprétation et
-> d'assistance, jamais une source autonome de faits touristiques (§4.3, §10).
-
 ---
 
-## ✨ Fonctionnalités du MVP (§7.1)
+## Fonctionnalités
 
 | # | Fonction | Où dans le code |
 |---|----------|------------------|
@@ -22,13 +13,13 @@ touristiques **structurées, sourcées et vérifiées**.
 | F5 | Découverte contextuelle du patrimoine | `views.py::heritage` |
 
 Chaque fiche touristique (`TouristSite`) porte ses **sources**, sa
-**date de vérification** et son **niveau de confiance** (§9.2, §9.4). Le
+**date de vérification** et son **niveau de confiance**. Le
 moteur conversationnel (`nlp_engine.py`) ne **recherche que dans la base
 de données** — il ne peut donc pas halluciner une destination qui n'existe
 pas (politique de réponse prudente, §10.4).
 
 L'espace d'administration Django (`/admin/`) sert d'espace administratif
-(§6.2, §17) pour créer/modifier des fiches, gérer les sources et
+pour créer/modifier des fiches, gérer les sources et
 enregistrer les vérifications, sans être exposé au public.
 
 Au-delà du MVP, cette livraison inclut aussi des comptes visiteurs, une
@@ -39,7 +30,7 @@ est réellement fonctionnel et de ce qui reste un point d'intégration.
 
 ---
 
-## 🧱 Stack technique
+## Stack technique
 
 Le cahier des charges cible Next.js + Supabase (§12.1). Cette implémentation
 respecte l'esprit fonctionnel et l'architecture de recherche augmentée avec
@@ -231,7 +222,7 @@ camway/
 Ce livrable respecte strictement le périmètre du MVP dans son cœur
 fonctionnel (F1–F5). Une seconde itération a toutefois implémenté, **à la
 demande explicite du commanditaire et de façon volontairement honnête**,
-certaines fonctionnalités hors MVP listées au §7.2 et aux perspectives
+certaines fonctionnalités hors MVP listées au et aux perspectives
 V2/V3 du §25. Le principe suivi partout : ne jamais simuler qu'une
 fonctionnalité marche réellement quand ce n'est pas le cas.
 
@@ -239,13 +230,13 @@ fonctionnalité marche réellement quand ce n'est pas le cas.
 
 | Fonctionnalité | Référence cahier des charges | Détail |
 |---|---|---|
-| Comptes visiteurs (inscription/connexion) | §6.2, §25 | Itinéraires persistants liés au compte plutôt qu'à la seule session |
+| Comptes visiteurs (inscription/connexion) | Itinéraires persistants liés au compte plutôt qu'à la seule session |
 | Carte interactive | — | Google Maps si `GOOGLE_MAPS_API_KEY` est configurée ; sinon (ou en cas d'échec) bascule automatique sur OpenStreetMap/Leaflet, gratuit et sans clé — la carte s'affiche donc toujours |
 | Météo en temps réel | §25.3 « Informations dynamiques » | API publique Open-Meteo (gratuite, sans clé). Si l'appel échoue, **aucune valeur n'est inventée** : message d'indisponibilité affiché |
 | Réseau de prestataires vérifiés | §25.1 | Modèle `Provider` avec la même traçabilité (sources, niveau de confiance) que les fiches touristiques |
 | Demandes de réservation | §7.2 (exclu du MVP) | Formulaire réel, enregistré en base, visible dans l'admin — présenté comme une *demande non garantie*, jamais comme une réservation confirmée |
 
-### ⚠️ Hors MVP — architecture prête, honnêtement non simulée
+###  Hors MVP — architecture prête
 
 | Fonctionnalité | Référence | Pourquoi ce n'est pas simulé |
 |---|---|---|
