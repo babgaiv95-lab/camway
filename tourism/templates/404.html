@@ -1,1 +1,16 @@
-
+{% extends "tourism/base.html" %}
+{% block title %}Page introuvable (404) — CamWay{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:600px; text-align:center; padding-top:3rem; padding-bottom:3rem;">
+    <i class="fa-solid fa-compass" style="font-size:3rem; color:var(--cw-green);"></i>
+    <h1 style="margin-top:1rem;">Page introuvable</h1>
+    <p style="color:var(--cw-ink-soft); margin:1rem 0 1.6rem;">
+      La page que vous cherchez n'existe pas ou a été déplacée. Le lien est peut-être
+      incorrect, ou la fiche a été retirée de la base.
+    </p>
+    <a href="{% url 'tourism:home' %}" class="btn btn-primary"><i class="fa-solid fa-house icon"></i> Retour à l'accueil</a>
+    <a href="{% url 'tourism:explore' %}" class="btn btn-outline"><i class="fa-solid fa-magnifying-glass icon"></i> Explorer les destinations</a>
+  </div>
+</section>
+{% endblock %}
